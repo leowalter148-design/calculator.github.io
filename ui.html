@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculatrice</title>
+    <link rel="stylesheet" href="icons/font/bootstrap-icons.min.css">
+
+    <style>
+           .section{
+                 border-radius:30px;
+                 margin:.5% 1% 5% 38%;
+                 width:360px;
+                 height:630px;
+                 background-color:black;
+                 display:flex;
+                 flex-direction:column; 
+                box-shadow:0px 5px 10px rgba(0,0,0,0.6);
+           }
+           .screen{
+            background-color:;
+            height:250px;
+           }
+           #menu{
+            margin-top:10%;
+            margin-left:6%;
+           }
+           #list{
+            color:white;
+            font-size:30px;
+            cursor:pointer;
+           }
+           .string{
+            display:flex;
+            flex-direction:column;
+            margin-top:15%;
+           }
+           #monitor{
+            background-color:black;
+            outline:none !important;
+            color:white;
+            font-size:50px;
+            border:none;
+            height:50px;
+            width:327px;
+            text-align:right;
+            padding-right:5%;
+           }
+           #result{
+            background-color:black;
+            outline:none !important;
+            color:#f2f2f2;
+            font-size:25px;
+            border:none;
+            height:50px;
+            width:327px;
+            text-align:right;
+            padding-right:5%;
+           }
+           .keyboard{
+            height:340px;
+            display:flex;
+            flex-direction:column;
+            gap:8px;
+            margin:2% 0% 5% 7%;
+
+           }
+           .row1,.row2,.row3,.row4,.row5{
+            display:flex;
+            gap:10px;
+            flex-wrap:wrap;
+           }
+           
+           .elt,.sub{
+               background-color:white;
+               color:black;
+               width:70px;
+               height:45px;
+               border-radius:8px;
+               text-align:center;
+               padding-top:4%;
+               cursor:pointer;
+
+           }
+           .elt:hover,.sub:hover{
+            color:blue;
+           }
+           .elt{
+            background-color:transparent;
+            color:white;
+            box-shadow:0px 2px 3px #333;
+           }
+           .sub{
+            background-color:orangered;
+            color:white;
+            box-shadow:0px 2px 3px orangered;
+            font-size:20px;
+           }
+           .first{
+            background-color:#333;
+            color:white;
+            box-shadow:0px 2px 3px #333;
+           }
+           .twins{
+            width:150px;
+           }
+           
+    </style>
+</head>
+<body>
+    <section class="section">
+        <section class="screen">
+
+         <div id="menu"><i class="bi bi-list" id="list"></i></div>
+         <div class="string">
+         <input type="text" id="monitor" autofocus>
+         <input type="text" id="result">
+         </div>
+
+        </section>
+
+        <section class="keyboard">
+            
+                 <div class="row1">
+                    <div id="items1" class=" sub first">AC</div>
+                    <div id="items2" class="sub first">✖</div>
+                    <div id="items3" class="sub first">%</div>
+                    <div id="subitems1" class="sub " style="font-size:25px;">/</div>
+                 </div>
+
+                 <div class="row2">
+                    <div id="items4" class="elt">7</div>
+                    <div id="items5" class="elt">8</div>
+                    <div id="items6" class="elt">9</div>
+                    <div id="subitems2" class="elt sub">*</div>
+                 </div>
+
+                 <div class="row3">
+                    <div id="items7" class="elt">4</div>
+                    <div id="items8" class="elt">5</div>
+                    <div id="items9" class="elt">6</div>
+                    <div id="subitems3" class="elt sub">-</div>
+                 </div>
+
+                 <div class="row4">
+                    <div id="items10" class="elt" >1</div>
+                    <div id="items11" class="elt">2</div>
+                    <div id="items12" class="elt">3</div>
+                    <div id="subitems4" class="elt sub">+</div>
+                 </div>
+
+                 <div class="row5">
+                    <div id="items14" class="elt twins">0</div>
+                    <div id="items15" class="elt">.</div>
+                    <div id="subitems5" class="elt sub">=</div>
+                 </div>
+        </section>
+    </section>g
+
+
+    <script>
+
+    
+
+
+
+const monitor = document.getElementById('monitor');
+const result = document.getElementById('result');
+
+// Tous les boutons : chiffres, opérations, etc.
+const allButtons = document.querySelectorAll('.elt, .sub');
+
+let shouldReset = false; // Pour savoir si on doit vider l’écran après "="
+
+allButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    const val = button.textContent;
+
+    // 🔁 Réinitialiser pour un nouveau calcul après "="
+    if (shouldReset && !['=', 'AC', '✖'].includes(val)) {
+      monitor.value = '';
+      result.value = '';
+      shouldReset = false;
+    }
+
+    if (val === '=') {
+      try {
+        // Calcul direct sans remplacement car tu vas utiliser les bons symboles dans le HTML
+        result.value = eval(monitor.value);
+        shouldReset = true;
+      } catch (e) {
+        result.value = 'Erreur';
+      }
+    } else if (val === 'AC') {
+      monitor.value = '';
+      result.value = '';
+    } else if (val === '✖') {
+      monitor.value = monitor.value.slice(0, -1); // Supprime le dernier caractère
+    } else if (val !== '±' && val !== '%') {
+      monitor.value += val;
+    }
+  });
+});
+
+
+    </script>
+
+</body>
+</html>
+
+
+
