@@ -141,7 +141,7 @@
         <section class="keyboard">
             
                  <div class="row1">
-                    <div id="items1" class=" sub first">AC</div>
+                    <div id="items1" class=" sub first">C</div>
                     <div id="items2" class="sub first">✖</div>
                     <div id="items3" class="sub first">%</div>
                     <div id="subitems1" class="sub " style="font-size:25px;">/</div>
@@ -196,7 +196,7 @@ allButtons.forEach(button => {
     const val = button.textContent;
 
     // 🔁 Réinitialiser pour un nouveau calcul après "="
-    if (shouldReset && !['=', 'AC', '✖'].includes(val)) {
+    if (shouldReset && !['=', 'C', '✖'].includes(val)) {
       monitor.value = '';
       result.value = '';
       shouldReset = false;
@@ -210,7 +210,7 @@ allButtons.forEach(button => {
       } catch (e) {
         result.value = 'Erreur';
       }
-    } else if (val === 'AC') {
+    } else if (val === 'C') {
       monitor.value = '';
       result.value = '';
     } else if (val === '✖') {
