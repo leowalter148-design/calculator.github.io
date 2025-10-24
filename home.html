@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word effect</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=menu" />
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing: border-box;
+        }
+        #section{
+            height:100vh;
+            display:flex;
+            justify-content: center;
+            align-items:center;
+        }
+        #box1{
+            
+            margin-top:20%;
+            margin-left:6%;
+        }
+        #box1{
+            background: url('img/ram2.jpg');
+            background-size:cover;
+            background-repeat: no-repeat;
+            background-position:center;
+            background-clip:text;
+            animation:myani 10.5s linear infinite;
+
+        }
+        h1{
+        
+        
+    font-family: "Space Grotesk", sans-serif;
+      font-optical-sizing: auto;
+      font-style: normal;
+      font-weight:900;
+    
+      }
+        h1{
+            font-size: 180px;
+            color:transparent;
+        }
+        @keyframes myani{
+            0%{
+                background-position: 0 0;
+                background-size:0;
+            }
+            80%{
+                background-position: 100%;
+                background-size:100%;
+            }
+            100%{
+                background-position: 100% 0;
+                background-size:100%;
+                display="none";
+            }
+        }
+         h1{
+            font-family:Georgia, 'Times New Roman', Times, serif;
+            font-weight:1000;
+         }  
+         h3{
+            font-family:cursive;
+            font-size:38px;
+         } 
+    </style>
+
+</head>
+<body>
+    <section>
+<div id="box1">
+    <h1>MATHS.lab </h1>
+</div>
+</section>
+
+<script>
+     setTimeout(() => {
+        window.location.href="load.html"
+         },8500);
+</script>
+</body>
+</html>

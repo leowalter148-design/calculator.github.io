@@ -1,0 +1,227 @@
+<!DOCTYPE html><html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calculatrice Multimodule</title>
+  <style>
+    body {
+      font-family: Arial;
+      margin: 0;
+      padding: 0;
+      background-color: #f0f0f0;
+      transition: background-color 0.3s;
+    }header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #333;
+  color: white;
+}
+
+#theme-selector {
+  padding: 5px;
+}
+
+.container {
+  display: flex;
+  height: 100vh;
+}
+
+.menu {
+  width: 200px;
+  background-color: #444;
+  color: white;
+  padding: 20px;
+}
+
+.menu button {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+  background: none;
+  border: 1px solid #666;
+  color: white;
+  cursor: pointer;
+}
+
+.menu button:hover {
+  background-color: #666;
+}
+
+#calculator-content {
+  flex: 1;
+  padding: 20px;
+  background-color: white;
+}
+
+#history {
+  background-color: #eee;
+  padding: 10px;
+}
+
+.history-list li {
+  margin-bottom: 5px;
+}
+
+.input-line {
+  margin-bottom: 10px;
+}
+
+  </style>
+</head>
+<body>
+  <header>
+    <h2>Calculatrice Multimodule</h2>
+    <select id="theme-selector">
+      <option value="light">Clair</option>
+      <option value="dark">Sombre</option>
+      <option value="blue">Bleu</option>
+    </select>
+  </header>  <div class="container">
+    <div class="menu">
+      <button data-mode="basic">Calculatrice simple</button>
+      <button data-mode="gcd">PGCD / PPCM</button>
+      <button data-mode="distance">Distance 2 points</button>
+      <button data-mode="units">Conversions</button>
+    </div>
+    <div id="calculator-content">
+      <!-- Le module actif s'affiche ici -->
+    </div>
+  </div>  <div id="history">
+    <h3>Historique</h3>
+    <ul id="history-list" class="history-list"></ul>
+  </div>  <script>
+    const content = document.getElementById("calculator-content");
+    const menuButtons = document.querySelectorAll(".menu button");
+    const historyList = document.getElementById("history-list");
+
+    menuButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const mode = button.dataset.mode;
+        loadCalculatorMode(mode);
+      });
+    });
+
+    function addToHistory(expr, result) {
+      const item = document.createElement("li");
+      item.textContent = `${expr} = ${result}`;
+      historyList.appendChild(item);
+    }
+
+    function loadCalculatorMode(mode) {
+      if (mode === "basic") {
+        content.innerHTML = `
+          <div class="input-line">
+            <input type="text" id="basic-input" placeholder="Ex: 2 + 3 * 4" style="width: 80%; font-size: 20px;" />
+            <button onclick="evalBasic()">=</button>
+          </div>
+          <div id="basic-result" style="font-size: 18px;"></div>
+        `;
+      } else if (mode === "gcd") {
+        content.innerHTML = `
+          <div class="input-line">
+            <input type="number" id="gcd-a" placeholder="a" />
+            <input type="number" id="gcd-b" placeholder="b" />
+            <button onclick="computeGcdLcm()">Calculer</button>
+          </div>
+          <div id="gcd-result"></div>
+        `;
+      } else if (mode === "distance") {
+        content.innerHTML = `
+          <div class="input-line">
+            <input type="number" id="x1" placeholder="x1" />
+            <input type="number" id="y1" placeholder="y1" />
+            <input type="number" id="x2" placeholder="x2" />
+            <input type="number" id="y2" placeholder="y2" />
+            <button onclick="computeDistance()">Calculer</button>
+          </div>
+          <div id="distance-result"></div>
+        `;
+      } else if (mode === "units") {
+        content.innerHTML = `
+          <div class="input-line">
+            <input type="number" id="value" placeholder="valeur" />
+            <select id="unit-from">
+              <option value="cm">cm</option>
+              <option value="m">m</option>
+              <option value="km">km</option>
+            </select>
+            à
+            <select id="unit-to">
+              <option value="cm">cm</option>
+              <option value="m">m</option>
+              <option value="km">km</option>
+            </select>
+            <button onclick="convertUnits()">Convertir</button>
+          </div>
+          <div id="unit-result"></div>
+        `;
+      }
+    }
+
+    function evalBasic() {
+      const input = document.getElementById("basic-input").value;
+      try {
+        const result = eval(input);
+        document.getElementById("basic-result").textContent = `Résultat: ${result}`;
+        addToHistory(input, result);
+      } catch (e) {
+        document.getElementById("basic-result").textContent = "Erreur de calcul";
+      }
+    }
+
+    function computeGcdLcm() {
+      const a = parseInt(document.getElementById("gcd-a").value);
+      const b = parseInt(document.getElementById("gcd-b").value);
+      if (isNaN(a) || isNaN(b)) return;
+
+      const gcd = (x, y) => y === 0 ? x : gcd(y, x % y);
+      const lcm = (a * b) / gcd(a, b);
+
+      const result = `PGCD: ${gcd(a, b)}, PPCM: ${lcm}`;
+      document.getElementById("gcd-result").textContent = result;
+      addToHistory(`${a} et ${b}`, result);
+    }
+
+    function computeDistance() {
+      const x1 = parseFloat(document.getElementById("x1").value);
+      const y1 = parseFloat(document.getElementById("y1").value);
+      const x2 = parseFloat(document.getElementById("x2").value);
+      const y2 = parseFloat(document.getElementById("y2").value);
+      if ([x1, y1, x2, y2].some(isNaN)) return;
+      const d = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+      document.getElementById("distance-result").textContent = `Distance: ${d.toFixed(2)}`;
+      addToHistory(`Distance entre (${x1},${y1}) et (${x2},${y2})`, d.toFixed(2));
+    }
+
+    function convertUnits() {
+      const val = parseFloat(document.getElementById("value").value);
+      const from = document.getElementById("unit-from").value;
+      const to = document.getElementById("unit-to").value;
+      if (isNaN(val)) return;
+
+      const units = {
+        cm: 0.01,
+        m: 1,
+        km: 1000,
+      };
+
+      const result = val * units[from] / units[to];
+      document.getElementById("unit-result").textContent = `${val} ${from} = ${result} ${to}`;
+      addToHistory(`${val} ${from} en ${to}`, result);
+    }
+
+    // Thème dynamique
+    const themeSelector = document.getElementById("theme-selector");
+    themeSelector.addEventListener("change", () => {
+      const theme = themeSelector.value;
+      document.body.style.backgroundColor = theme === "dark" ? "#111" : theme === "blue" ? "#e0f0ff" : "#f0f0f0";
+    });
+
+    // Charger par défaut la calculatrice simple
+    loadCalculatorMode("basic");
+  </script></body>
+</html>
+
